@@ -7,10 +7,11 @@
         {% block title %}
         {% endblock %}
     </title>
+<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
 <link rel="stylesheet" href="{% static 'css/reset.css' %}">
 <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
 {% block extcss %}
 {% endblock %}
 </head>
@@ -59,6 +60,7 @@
         </footer>
     {% endblock %}
 <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>">
 <script src="{% static 'js/base.js' %}"></script>
 {% block extjs %}
 {% endblock %}

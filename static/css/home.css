@@ -216,9 +216,6 @@ footer .home .name {
 }
 .main .main-wrapper .shoplist .shopitem button span{
     display: inline-block;
-
-    /* 16px = 1rem */
-    /* 10px >>> */
     height:0.625rem;
     line-height: 0.5rem;
 }

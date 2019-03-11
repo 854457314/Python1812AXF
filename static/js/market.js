@@ -1,24 +1,4 @@
 $(function () {
-    /* jquery.cookie 用法
-     # 设置
-     $.cookie(key, value, arg)
-
-     # 获取
-     value = $.cookie(key)
-
-     # 删除
-     $.cookie(key, null)
-    */
-
-    /*
-    1、点击分类，选中对应分类 [解决: 记录下标]
-    2、对应的分类商品显示  [解决: 参分类ID]
-    3、当页面切换到其他页面后，再返回，下标和分类数据不匹配 [解决: 将点击下标传递给服务器， cookie]
-    */
-
-
-    // 你刚才点击了哪个？ 就是对应的样式添加上
-    // var index = localStorage.getItem('index')
     var index = $.cookie('index')
     console.log(index)
     if (index){ // 有点击，有下标
@@ -32,7 +12,7 @@ $(function () {
     // 问题: 点击显示效果是可以的，但因为a标签的原因，点击后添加的样式会因为 [重新加载页面]，导致样式又消失
     $('.type-slider li').click(function () {
         // $(this)  当前点击的对象
-        // $(this).addClass('active')
+        $(this).addClass('active')
 
         // 解决: 点击后，记录下标
         // localStorage.setItem('index', $(this).index())
