@@ -16,5 +16,30 @@
 {% endblock %}
 
 {% block content %}
-    登录
+    <div class="register">
+        <div class="back">
+            <a href="{% url 'axf:mine' %}">
+                <span class=" glyphicon glyphicon-remove "></span>
+            </a>
+        </div>
+
+        <form action="{% url 'axf:login' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <span class="input-group-addon">邮箱:</span>
+                <input type="text" class="form-control" placeholder="163邮箱/QQ邮箱" name="email">
+            </div>
+            <p style="color: red">
+                {{ user_err }}
+            </p>
+            <div class="input-group">
+                <span class="input-group-addon">密码:</span>
+                <input type="password" class="form-control" placeholder="6-10位密码" name="password">
+            </div>
+            <p style="color: red">
+                {{ pass_err }}
+            </p>
+                <input type="submit" id="subButton" value="登录">
+        </form>
+    </div>
 {% endblock %}
