@@ -49,10 +49,10 @@ def market(request, childid='0', sortid='0'):
     foodtypes = Foodtype.objects.all()
 
     index = int(request.COOKIES.get('index', '0'))
-    print(index)
+    # print(index)
     # 根据index 获取 对应的 分类ID
     categoryid = foodtypes[index].typeid
-    print(categoryid)
+    # print(categoryid)
 
     # 子类
     if childid == '0':
@@ -60,8 +60,8 @@ def market(request, childid='0', sortid='0'):
     else:
         goods_list = Goods.objects.filter(categoryid=categoryid).filter(childcid=childid)
 
-    print(goods_list)
-    print(type(goods_list))
+    # print(goods_list)
+    # print(type(goods_list))
 
     # 排序
     # 0默认综合排序   1销量排序     2价格最低   3价格最高
@@ -74,7 +74,7 @@ def market(request, childid='0', sortid='0'):
 
     # 获取子类信息
     childtypenames = foodtypes[index].childtypenames
-    print(childtypenames)
+    # print(childtypenames)
     # 存储子类信息 列表
     childtype_list = []
     # 将对应的子类拆分出来
