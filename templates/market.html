@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block extjs %}
-    <script src="{% static 'js/jquery.min.js' %}"></script>
+{#    <script src="{% static 'js/jquery.min.js' %}"></script>#}
     <script src="{% static 'js/market.js' %}"></script>
 {#    <script src="{% static 'js/jquery.cookie.js' %}"></script>#}
 {% endblock %}
@@ -37,13 +37,13 @@
 {#    导航#}
         <nav>
             <ul>
-                <li>
+                <li id="category-bt">
                     <span>
                         全部类型
                         <i class="glyphicon glyphicon-chevron-up"></i>
                     </span>
                 </li>
-                 <li>
+                 <li id="sort-bt">
                     <span>
                         综合排序
                         <i class="glyphicon glyphicon-chevron-up"></i>
@@ -80,9 +80,20 @@
             </ul>
         </div>
     </div>
-{#    <div class="bounce-view">#}
-{#        <div class="bounce-wrapper"></div>#}
-{#    </div>#}
-{#    <div class="bounce-view"></div>#}
+    <div class="bounce-view category-view">
+        <div class="bounce-wrapper">
+       {% for childtype in childtype_list %}
+            <a href="#">{{ childtype.name }}</a>
+       {% endfor %}
+        </div>
+    </div>
+    <div class="bounce-view sort-view">
+        <div class="bounce-wrapper">
+            <a href="#">综合排序</a>
+            <a href="#">销量排序</a>
+            <a href="#">价格最低</a>
+            <a href="#">价格最高</a>
+        </div>
+    </div>
     </div>
 {% endblock %}
