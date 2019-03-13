@@ -105,9 +105,20 @@ $(function () {
 
         // 购物车
         // 隐藏处理
-        $('.bt-wrapper>.glyphicon-minus').hide()
-        $('.bt-wrapper>i').hide()
-        //
+        // $('.bt-wrapper>.glyphicon-minus').hide()
+        // $('.bt-wrapper>i').hide()
+        $(".bt-wrapper .num").each(function () {
+            var num = parseInt($(this)).html())
+            if (num){
+                $(this).prev().show()
+                $(this).show()
+            }else {
+                $(this).prev().hide()
+                $(this).hide()
+            }
+        })
+
+
         // // 点击操作
         $('.bt-wrapper>.glyphicon-plus').click(function () {
             console.log('+操作')
@@ -115,6 +126,8 @@ $(function () {
             resquest_data = {
                 'goodsid':$(this).attr('data-goodsid')
             }
+
+            var  $that = $(this)
 
             $.get('/addcart/',resquest_data,function (response) {
                 console.log(response)
@@ -124,6 +137,14 @@ $(function () {
                             // 设置cookie
                             $.cookie('back','market',{expires:3,path:'/'})
                             window.open('/login/','_self')
+                        }else   if(response.status == 1){
+                            // $('.bt-wrapper .num').html(response.number)
+                            // 兄弟节点
+                            // 设置个数
+                            $that.prev().html(response.number)
+                            // 设置显示
+                            $that.prew().show()
+                            $that.prew().prev().show()
                         }
             })
         })

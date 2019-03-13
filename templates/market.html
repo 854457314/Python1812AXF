@@ -77,7 +77,14 @@
 
                             <div class="bt-wrapper">
                                 <span class="glyphicon glyphicon-minus"></span>
-                                <i class="num">10</i>
+                                <i class="num">
+                                    {% for cart in carts %}
+                                        {% if goods.id == cart.goods.id %}
+                                            {{ cart.number }}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                </i>
                                 <span class="glyphicon glyphicon-plus"
                                 data-goodsid="{{ goods.id }}"></span>
                             </div>
@@ -86,7 +93,7 @@
                 </ul>
             </div>
             </ul>
-        </div>
+{#        </div>#}
     </div>
     <div class="bounce-view category-view">
         <a class="bounce-wrapper">

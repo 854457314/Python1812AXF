@@ -15,5 +15,43 @@
 
 
 {% block content %}
-    主页
+    <div class="cart">
+        <ul>
+            {% for cart in cartd %}
+                <li>
+                <div class="confirm-wrapper">
+                    {% if cart.isselect %}
+                        <span class="glyphicon glyphicon-ok"></span>
+                        {% else %}
+                        <span class="no"></span>
+                        {% endif %}
+                </div>
+                <div class="confirm-wrapper">
+                    <div class="img">
+                        <img src="{{ cart.goods.productimg }}">
+                    </div>
+                    <div class="detail">
+                        <p class="name">{{ cart.goods.productlongname }}</p>
+                        <p class="price">{{ cart.goods.price }}</p>
+                        <p class="num">x{{ cart.goods.number }}</p>
+                    </div>
+                </div>
+                </li>
+            {% endfor %}
+        </ul>
+    <div class="bill">
+            <div class="bill-left">
+                <div class="all">
+                    <span class="no">全选</span>
+                </div>
+                <div class="total">
+                    <span>¥</span>
+                    <b>2019</b>
+                </div>
+            </div>
+            <div class="bill-right">
+                下单
+            </div>
+    </div>
+    </div>
 {% endblock %}

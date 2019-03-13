@@ -94,11 +94,24 @@ def market(request, childid='0', sortid='0'):
     }
 
 
+    # 获取购物车信息
+    token = request.session.get('token')
+    userid = cache.get(token)
+
+    # 获取用户信息
+
+    if userid:
+        user = User.objects.get(pk=userid)
+        carts = user.cart_set.all()
+        response_dir['carts'] = carts
+
+
     return render(request, 'market.html', context=response_dir)
 
 
 def cart(request):
-    return render(request,'cart.html')
+    carts = Cart.objects.all()
+    return  render(request,'cart.html',context={'carts':carts})
 
 
 def mine(request):
@@ -227,6 +240,7 @@ def addcart(request):
                 cart.save()
 
                 response_data['status'] = 1
+                response_data['number'] = cart.number
                 response_data['msg'] = '添加{}购物车成功:{}'.format(cart.goods.productlongname, cart.number)
 
                 return JsonResponse(response_data)
