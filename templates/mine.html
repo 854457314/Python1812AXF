@@ -23,7 +23,11 @@
     <div class="user-content">
         <p>
             <span class="glyphicon glyphicon-user"></span>
-            <a href="{% url 'axf:login' %}" class="login">{{ user.name|default:'未登录' }}</a>
+{#            <a href="{% url 'axf:login' %}">#}
+                <a id="login-i">
+                    {{ user.name|default:'未登录' }}
+                </a>
+{#            </a>#}
         </p>
         <p >
             <span class="glyphicon glyphicon-th-list"></span>

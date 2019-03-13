@@ -4,12 +4,12 @@ import random
 import time
 # from linecache import cache
 from django.core.cache import cache
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
 from axf import    models
-from axf.models import Wheel, Nav, Mustbuy, Shop, Mainshow, Foodtype, Goods, User
+from axf.models import Wheel, Nav, Mustbuy, Shop, Mainshow, Foodtype, Goods, User, Cart
 
 
 def home(request):
@@ -49,10 +49,8 @@ def market(request, childid='0', sortid='0'):
     foodtypes = Foodtype.objects.all()
 
     index = int(request.COOKIES.get('index', '0'))
-    # print(index)
     # 根据index 获取 对应的 分类ID
     categoryid = foodtypes[index].typeid
-    # print(categoryid)
 
     # 子类
     if childid == '0':
@@ -60,8 +58,6 @@ def market(request, childid='0', sortid='0'):
     else:
         goods_list = Goods.objects.filter(categoryid=categoryid).filter(childcid=childid)
 
-    # print(goods_list)
-    # print(type(goods_list))
 
     # 排序
     # 0默认综合排序   1销量排序     2价格最低   3价格最高
@@ -87,8 +83,8 @@ def market(request, childid='0', sortid='0'):
         }
 
         childtype_list.append(temp_dir)
-    print(childtype_list)
-    print(type(childtype_list))
+    # print(childtype_list)
+    # print(type(childtype_list))
 
     response_dir = {
         'foodtypes': foodtypes,
@@ -163,6 +159,11 @@ def login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
+
+        # 重定向位置
+        back = request.COOKIES.get('back')
+        # print(back)
+
         users = User.objects.filter(email=email)
         if  users.exists():
             user = users.first()
@@ -173,7 +174,11 @@ def login(request):
             # 传递给客户端
                 request.session['token'] = token
 
-                return  redirect('axf:mine')
+                # 根据back
+                if  back == 'mine':
+                    return redirect('axf:mine')
+                else:
+                    return redirect('axf:marketbase')
             else:
                 return render(request, 'login.html', context={'pass_err': '对不起，您输入的密码错误'})
         else:   #密码错误
@@ -183,3 +188,69 @@ def login(request):
 def logout(request):
     request.session.flush()
     return redirect('axf:mine')
+
+
+def addcart(request):
+    # 获取token
+    token = request.session.get('token')
+
+    # 响应数据
+    response_data = {}
+
+    if  token:
+        userid = cache.get(token)
+
+        if userid:   #已经登录
+            user = User.objects.get(pk=userid)
+            goodsid = request.GET.get('goodsid')
+            # print(goodsid)
+            goods = Goods.objects.get(pk=goodsid)
+
+
+            carts = Cart.objects.filter(user=user).filter(goods=goods)
+
+            if carts.exists():
+                cart = carts.first()
+                cart.number = cart.number + 1
+                cart.save()
+
+                response_data['status'] = 1
+                response_data['msg'] = '添加{}购物车成功:{}'.format(cart.goods.productlongname, cart.number)
+
+                return JsonResponse(response_data)
+
+            else:
+                cart = Cart()
+                cart.user = user
+                cart.goods = goods
+                cart.number = 1
+                cart.save()
+
+                response_data['status'] = 1
+                response_data['msg'] = '添加{}购物车成功:{}'.format(cart.goods.productlongname, cart.number)
+
+                return JsonResponse(response_data)
+        else:
+            return JsonResponse({'msg': '请先登录,后操作', 'status':0})
+
+    else:
+        return JsonResponse({'msg':'请先登录,后操作','status':0})
+
+
+def checkemail(request):
+    email = request.GET.get('email')
+    print(email)
+
+    # 数据库中查找
+    users = User.objects.filter(email=email)
+    if  users.exists():
+        response_data = {
+            'status': 0,
+            'msg': '账号不可用'
+        }
+    else:
+      response_data = {
+        'status':1,
+        'msg':'账号可用'
+    }
+    return JsonResponse(response_data)

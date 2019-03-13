@@ -2,10 +2,8 @@ $(function () {
     /* jquery.cookie 用法
      # 设置
      $.cookie(key, value, arg)
-
      # 获取
      value = $.cookie(key)
-
      # 删除
      $.cookie(key, null)
     */
@@ -102,5 +100,31 @@ $(function () {
 
         categoryViewHide()
         categoryShow = false
-    })
+})
+
+
+        // 购物车
+        // 隐藏处理
+        $('.bt-wrapper>.glyphicon-minus').hide()
+        $('.bt-wrapper>i').hide()
+        //
+        // // 点击操作
+        $('.bt-wrapper>.glyphicon-plus').click(function () {
+            console.log('+操作')
+
+            resquest_data = {
+                'goodsid':$(this).attr('data-goodsid')
+            }
+
+            $.get('/addcart/',resquest_data,function (response) {
+                console.log(response)
+
+                        if (response.status == 0){   //未登录
+
+                            // 设置cookie
+                            $.cookie('back','market',{expires:3,path:'/'})
+                            window.open('/login/','_self')
+                        }
+            })
+        })
 })

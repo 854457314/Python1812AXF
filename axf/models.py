@@ -12,22 +12,22 @@ class Base(models.Model):
 
 class Wheel(Base):
     class Meta:
-        db_table = 'AXF_wheel'
+        db_table = 'axf_wheel'
 
 
 class Nav(Base):
     class Meta:
-        db_table = 'AXF_nav'
+        db_table = 'axf_nav'
 
 
 class Mustbuy(Base):
     class Meta:
-        db_table = 'AXF_mustbuy'
+        db_table = 'axf_mustbuy'
 
 
 class Shop(Base):
     class Meta:
-        db_table = 'AXF_shop'
+        db_table = 'axf_shop'
 
 class Mainshow(models.Model):
     trackid = models.CharField(max_length=10)
@@ -58,7 +58,7 @@ class Mainshow(models.Model):
     marketprice3 = models.CharField(max_length=10)
 
     class Meta:
-        db_table = 'AXF_mainshow'
+        db_table = 'axf_mainshow'
 
 
 # 分类 模型类
@@ -73,7 +73,7 @@ class Foodtype(models.Model):
     typesort = models.IntegerField()
 
     class Meta:
-        db_table = 'AXF_foodtypes'
+        db_table = 'axf_foodtypes'
 
 
 class Goods(models.Model):
@@ -122,3 +122,16 @@ class  User(models.Model):
 
     class Meta:
         db_table = 'axf:user'
+
+class  Cart(models.Model):
+    # 添加商品到哪个用户
+    user = models.ForeignKey(User)
+    # 添加的是哪个商品
+    goods = models.ForeignKey(Goods)
+    # 商品数量
+    number = models.IntegerField()
+    isselect = models.BooleanField(default=True)
+    isdelete = models.BooleanField(default=False)
+
+    class  Meta:
+        db_table = 'axf_cart'
